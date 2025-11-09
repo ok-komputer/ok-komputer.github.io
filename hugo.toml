@@ -2,6 +2,7 @@ baseURL = 'https://ok-komputer.github.io/'
 languageCode = 'zh-CN'
 title = 'ok-komputer'
 theme = 'PaperMod'
+publishDir = 'docs'
 
 [params]
     showtoc = true
