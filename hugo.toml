@@ -1,3 +1,45 @@
-baseURL = 'https://example.org/'
-languageCode = 'en-us'
-title = 'My New Hugo Site'
+baseURL = 'https://ok-komputer.github.io/'
+languageCode = 'zh-CN'
+title = 'ok-komputer'
+theme = 'PaperMod'
+
+[params]
+    showtoc = true
+    tocopen = true
+    title = 'ok-komputer'
+    description = "ok-komputer's blog"
+    author = 'ok-komputer'
+    
+    [params.homeInfoParams]
+        Title = "Welcome!"
+        Content = "I'm ok-komputer, also zzy2357."
+
+    [[params.socialIcons]]
+        name = 'Github'
+        url = 'https://github.com/ok-komputer/'
+    
+    [[params.socialIcons]]
+        name = 'Email'
+        url = 'mailto:zzy2357@outlook.com'
+
+    [[params.socialIcons]]
+        name = 'Steam'
+        url = 'https://steamcommunity.com/id/zzy2357/'
+
+[[menu.main]]
+    identifier = "search"
+    name = "/ search"
+    url = "/search"
+    weight = 0
+
+[[menu.main]]
+    identifier = "about"
+    name = "/ about"
+    url = "/about"
+    weight = 1
+
+[[menu.main]]
+    identifier = "archives"
+    name = "/ archives"
+    url = "/archives"
+    weight = 2
