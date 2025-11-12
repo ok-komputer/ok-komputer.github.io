@@ -1,0 +1,33 @@
+[[entries]]
+title = "I'm ok-komputer, also zzy2357."
+
+  [[entries.entries]]
+  title = "Github"
+  url = "https://github.com/ok-komputer/"
+
+  [[entries.entries]]
+  title = "Email"
+  url = "mailto:zzy2357@outlook.com"
+
+
+[[entries]]
+title = "all posts"
+
+  [entries.post_list]
+  limit = 5
+  show_more = true
+  show_more_text = "See archive..."
+  show_more_url = "posts"
+
+[[entries]]
+title = "posts by category"
+
+  [entries.post_list]
+  section = "posts"
+  show_more = true
+  show_more_text = "See more posts..."
+  show_more_url = "posts"
+
+[[entries]]
+title = "RSS"
+url = "index.xml"

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+   <meta name="description" content="SQL 注入就是利用应用执行 SQL 语句注入非法内容从而执行恶意查询或增删改。
+SQL 基本查询语句
+从 users 表中查询 id 为 123 的数据：
+SELECT username, password FROM users where id = 123;
+
+UNION 用于合并两个或多个 SELECT 语句的结果
+LIMIT 用于限制返回的记录数量
+ORDER BY 对结果进行排序
+-- 用于单行注释
+/* */ 用于多行注释
+
+SELECT username, password FROM users1 ORDER BY id
+    UNION SELECT username, password FROM users2 LIMIT 10; -- 查询
+注意：使用 UNION 的时候要注意两个表的列数量必须相同。
+SQL 常用参数
+
+user()：当前数据库用户
+database()：当前数据库名
+version()：当前使用的数据库版本
+@@datadir：数据库储存数据路径
+concat()：联合数据，用于联合两条数据结果，如 concat(username, 0x3a, password)
+group_concat()：和 concat() 类似，如 group_concat(DISTINCT&#43;user,0x3a,password)，用于把多条数据一次注入出来
+concat_ws()：用法类似
+hex() 和 unhex()：用于 hex 编码解码
+ASCII()：返回字符的 ASCII 码值
+CHAR()：把整数转换为对应的字符
+load_file()：以文本方式读取文件，在 Windows 中，路径设置为 \
+select xxoo into outfile &#39;路径&#39;：权限较高时可直接写文件
+
+基本注入
+注释掉后面的条件以直接绕过条件。">  
+
+  <title>
+    
+      SQL 注入 - CTF Web 学习笔记
+    
+  </title>
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/" />
+  
+  <link rel='stylesheet' href='//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.css'>
+  
+  
+  <link rel="stylesheet" href="/css/main.a5e88659bae49e19e58eb762e3caed754ef067648a876921244a317846166278ac8093aba52cefd8001e335ed8d9001d4a5284716acc64c57db8048e9caa2ce8.css" integrity="sha512-peiGWbrknhnljrdi48rtdU7wZ2SKh2khJEoxeEYWYnisgJOrpSzv2AAeM17Y2QAdSlKEcWrMZMV9uASOnKos6A==" />
+  
+</head>
+<body a="auto">
+        <main class="page-content" aria-label="Content">
+            <div class="w">
+                <div class="post-meta">
+                    <a href="/">..</a>
+
+                    <p>
+                        <time datetime="2025-11-12 19:32:31 &#43;0800 CST">
+                            2025-11-12
+                        </time>
+                    </p>
+                </div>
+
+<article>
+    <h1>SQL 注入 - CTF Web 学习笔记</h1>
+
+    
+        <aside  class="toc" >
+            <nav id="TableOfContents">
+  <ul>
+    <li><a href="#sql-基本查询语句">SQL 基本查询语句</a></li>
+    <li><a href="#sql-常用参数">SQL 常用参数</a></li>
+    <li><a href="#基本注入">基本注入</a></li>
+    <li><a href="#union-注入"><code>UNION</code> 注入</a></li>
+    <li><a href="#错误型注入">错误型注入</a></li>
+  </ul>
+</nav>
+        </aside>
+    
+
+    <p>SQL 注入就是利用应用执行 SQL 语句注入非法内容从而执行恶意查询或增删改。</p>
+<h2 id="sql-基本查询语句">SQL 基本查询语句</h2>
+<p>从 <code>users</code> 表中查询 <code>id</code> 为 <code>123</code> 的数据：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> username, password <span style="color:#66d9ef">FROM</span> users <span style="color:#66d9ef">where</span> id <span style="color:#f92672">=</span> <span style="color:#ae81ff">123</span>;
+</span></span></code></pre></div><ul>
+<li><code>UNION</code> 用于合并两个或多个 SELECT 语句的结果</li>
+<li><code>LIMIT</code> 用于限制返回的记录数量</li>
+<li><code>ORDER BY</code> 对结果进行排序</li>
+<li><code>--</code> 用于单行注释</li>
+<li><code>/* */</code> 用于多行注释</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> username, password <span style="color:#66d9ef">FROM</span> users1 <span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> id
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">UNION</span> <span style="color:#66d9ef">SELECT</span> username, password <span style="color:#66d9ef">FROM</span> users2 <span style="color:#66d9ef">LIMIT</span> <span style="color:#ae81ff">10</span>; <span style="color:#75715e">-- 查询
+</span></span></span></code></pre></div><p>注意：使用 UNION 的时候要注意两个表的列数量必须相同。</p>
+<h2 id="sql-常用参数">SQL 常用参数</h2>
+<ul>
+<li><code>user()</code>：当前数据库用户</li>
+<li><code>database()</code>：当前数据库名</li>
+<li><code>version()</code>：当前使用的数据库版本</li>
+<li><code>@@datadir</code>：数据库储存数据路径</li>
+<li><code>concat()</code>：联合数据，用于联合两条数据结果，如 <code>concat(username, 0x3a, password)</code></li>
+<li><code>group_concat()</code>：和 <code>concat()</code> 类似，如 <code>group_concat(DISTINCT+user,0x3a,password)</code>，用于把多条数据一次注入出来</li>
+<li><code>concat_ws()</code>：用法类似</li>
+<li><code>hex()</code> 和 <code>unhex()</code>：用于 hex 编码解码</li>
+<li><code>ASCII()</code>：返回字符的 ASCII 码值</li>
+<li><code>CHAR()</code>：把整数转换为对应的字符</li>
+<li><code>load_file()</code>：以文本方式读取文件，在 Windows 中，路径设置为 \</li>
+<li><code>select xxoo into outfile '路径'</code>：权限较高时可直接写文件</li>
+</ul>
+<h2 id="基本注入">基本注入</h2>
+<p>注释掉后面的条件以直接绕过条件。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> username, password <span style="color:#66d9ef">FROM</span> users <span style="color:#66d9ef">WHERE</span> username <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;admin&#39;</span> <span style="color:#66d9ef">AND</span> password <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;admin&#39;</span>
+</span></span></code></pre></div><p>此时如果 <code>username</code> 为 <code>admin'--</code>，那么将会截断前一个引号并注释掉后面的密码验证，攻击者可以直接绕过身份验证。</p>
+<h2 id="union-注入"><code>UNION</code> 注入</h2>
+<p>通过 UNION 将攻击者构造的查询结果与合法查询结果合并，从而获取敏感数据。</p>
+<p>输入：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#e6db74">&#39; UNION SELECT null, username, password FROM users --
+</span></span></span></code></pre></div><p>将 <code>users</code> 表的 <code>username</code> 和 <code>password</code> 数据作为结果返回。</p>
+<h2 id="错误型注入">错误型注入</h2>
+<p>通过故意触发数据库错误，利用错误信息推测表名、列名或数据。</p>
+<p>输入：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#e6db74">&#39; AND 1=CONVERT(int, (SELECT @@version)) --
+</span></span></span></code></pre></div><p>可以通过报错获得数据库版本信息。</p>
+
+</article>
+
+            </div>
+        </main>
+    </body></html>
