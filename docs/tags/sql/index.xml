@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Sql on OK Komputer</title>
+    <link>https://ok-komputer.github.io/tags/sql/</link>
+    <description>Recent content in Sql on OK Komputer</description>
+    <image>
+      <title>OK Komputer</title>
+      <url>https://avatars.githubusercontent.com/u/226872255?v=4</url>
+      <link>https://avatars.githubusercontent.com/u/226872255?v=4</link>
+    </image>
+    <generator>Hugo -- 0.151.0</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 12 Nov 2025 19:32:31 +0800</lastBuildDate>
+    <atom:link href="https://ok-komputer.github.io/tags/sql/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>SQL 注入 - CTF Web 学习笔记</title>
+      <link>https://ok-komputer.github.io/posts/sql-injection/</link>
+      <pubDate>Wed, 12 Nov 2025 19:32:31 +0800</pubDate>
+      <guid>https://ok-komputer.github.io/posts/sql-injection/</guid>
+      <description>&lt;p&gt;SQL 注入就是利用应用执行 SQL 语句注入非法内容从而执行恶意查询或增删改。&lt;/p&gt;
+&lt;h2 id=&#34;sql-基本查询语句&#34;&gt;SQL 基本查询语句&lt;/h2&gt;
+&lt;p&gt;从 &lt;code&gt;users&lt;/code&gt; 表中查询 &lt;code&gt;id&lt;/code&gt; 为 &lt;code&gt;123&lt;/code&gt; 的数据：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;SELECT&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;username&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;password&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;FROM&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;users&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;where&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;id&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;123&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;UNION&lt;/code&gt; 用于合并两个或多个 SELECT 语句的结果&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;LIMIT&lt;/code&gt; 用于限制返回的记录数量&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ORDER BY&lt;/code&gt; 对结果进行排序&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;--&lt;/code&gt; 用于单行注释&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;/* */&lt;/code&gt; 用于多行注释&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;SELECT&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;username&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;password&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;FROM&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;users1&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;ORDER&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;BY&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;id&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;UNION&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;SELECT&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;username&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;password&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;FROM&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;users2&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;LIMIT&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;10&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;-- 查询
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;注意：使用 UNION 的时候要注意两个表的列数量必须相同。&lt;/p&gt;
+&lt;h2 id=&#34;sql-常用参数&#34;&gt;SQL 常用参数&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;user()&lt;/code&gt;：当前数据库用户&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;database()&lt;/code&gt;：当前数据库名&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;version()&lt;/code&gt;：当前使用的数据库版本&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;@@datadir&lt;/code&gt;：数据库储存数据路径&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;concat()&lt;/code&gt;：联合数据，用于联合两条数据结果，如 &lt;code&gt;concat(username, 0x3a, password)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;group_concat()&lt;/code&gt;：和 &lt;code&gt;concat()&lt;/code&gt; 类似，如 &lt;code&gt;group_concat(DISTINCT+user,0x3a,password)&lt;/code&gt;，用于把多条数据一次注入出来&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;concat_ws()&lt;/code&gt;：用法类似&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;hex()&lt;/code&gt; 和 &lt;code&gt;unhex()&lt;/code&gt;：用于 hex 编码解码&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ASCII()&lt;/code&gt;：返回字符的 ASCII 码值&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;CHAR()&lt;/code&gt;：把整数转换为对应的字符&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;load_file()&lt;/code&gt;：以文本方式读取文件，在 Windows 中，路径设置为 \&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;select xxoo into outfile &#39;路径&#39;&lt;/code&gt;：权限较高时可直接写文件&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;基本注入&#34;&gt;基本注入&lt;/h2&gt;
+&lt;p&gt;注释掉后面的条件以直接绕过条件。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
