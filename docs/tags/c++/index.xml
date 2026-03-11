@@ -11,8 +11,54 @@
     </image>
     <generator>Hugo -- 0.151.0</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 09 Mar 2026 07:54:32 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 09 Mar 2026 14:31:39 +0800</lastBuildDate>
     <atom:link href="https://ok-komputer.github.io/tags/c++/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>C&#43;&#43; String</title>
+      <link>https://ok-komputer.github.io/posts/cpp-string/</link>
+      <pubDate>Mon, 09 Mar 2026 14:31:39 +0800</pubDate>
+      <guid>https://ok-komputer.github.io/posts/cpp-string/</guid>
+      <description>&lt;h2 id=&#34;创建&#34;&gt;创建&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;#include&lt;/span&gt; &lt;span class=&#34;cpf&#34;&gt;&amp;lt;string&amp;gt;&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt; &lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;// 注意不是 &amp;lt;string.h&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;string&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;s&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;转字符数组&#34;&gt;转字符数组&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;string.data()&lt;/code&gt; 不保证末尾有空字符&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;string.c_str()&lt;/code&gt; 保证末尾有空字符，建议用这个&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;获取长度&#34;&gt;获取长度&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;string.size()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;string.length()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;strlen(string.c_str())&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;注意！&lt;/p&gt;
+&lt;p&gt;这三个函数（以及下面将要提到的 &lt;code&gt;find&lt;/code&gt; 函数）的返回值类型都是 &lt;code&gt;size_t&lt;/code&gt;（&lt;code&gt;unsigned long&lt;/code&gt;）．因此，这些返回值不支持直接与负数比较或运算，建议在需要时进行强制转换．&lt;/p&gt;&lt;/blockquote&gt;
+&lt;h2 id=&#34;查找&#34;&gt;查找&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;string.find(str, pos = 0)&lt;/code&gt; 查找字符串中一个字符/字符串在含 &lt;code&gt;pos&lt;/code&gt; 之后第一次出现的位置，如果没有出现，则为 &lt;code&gt;string::npos&lt;/code&gt;（类型为 &lt;code&gt;size_t&lt;/code&gt;/&lt;code&gt;unsigned long&lt;/code&gt;，需转换）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;截取&#34;&gt;截取&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;string.substr(pos, len)&lt;/code&gt; 返回从 &lt;code&gt;pos&lt;/code&gt; 位置开始截取最多 &lt;code&gt;len&lt;/code&gt; 个字符组成的字符串&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;插入&#34;&gt;插入&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;string.insert(index, count, char)&lt;/code&gt; 在 &lt;code&gt;index&lt;/code&gt; 处连续插入 &lt;code&gt;count&lt;/code&gt; 个 &lt;code&gt;char&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;string.insert(index, str)&lt;/code&gt; 在 &lt;code&gt;index&lt;/code&gt; 处插入 &lt;code&gt;str&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;擦除&#34;&gt;擦除&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;string.erase(index, count = string.length())&lt;/code&gt; 将从含 &lt;code&gt;index&lt;/code&gt; 开始的 &lt;code&gt;count&lt;/code&gt; 个字符删除&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;替换&#34;&gt;替换&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;string.replace(pos, count, str)&lt;/code&gt; 将从含 &lt;code&gt;pos&lt;/code&gt; 后面的 &lt;code&gt;count&lt;/code&gt; 个字符替换为 &lt;code&gt;str&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;string.replace(first: iterator, last: iterator, str)&lt;/code&gt; 将以含 &lt;code&gt;first&lt;/code&gt; 开始，不含 &lt;code&gt;last&lt;/code&gt; 结束的字串替换为 &lt;code&gt;str&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;</description>
+    </item>
     <item>
       <title>C&#43;&#43; Vector</title>
       <link>https://ok-komputer.github.io/posts/cpp-vector/</link>
